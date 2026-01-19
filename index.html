@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistema de control de baterías y choferes con temporizador">
+    <title>Control de Baterías - Gestión de Choferes</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-icon">🔋</span>
+                    <h1>Battery Control</h1>
+                </div>
+                <div class="header-stats">
+                    <div class="stat-badge">
+                        <span class="stat-label">Choferes Activos</span>
+                        <span class="stat-value" id="activeDriversCount">0</span>
+                    </div>
+                    <div class="stat-badge">
+                        <span class="stat-label">Baterías en Uso</span>
+                        <span class="stat-value" id="totalBatteriesCount">0</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Drivers List (Main Element) -->
+            <section class="drivers-panel">
+                <div class="panel-header">
+                    <h2>👥 Choferes Activos</h2>
+                    <button class="btn-secondary" id="clearAllBtn">
+                        <span>🗑️</span> Limpiar Todo
+                    </button>
+                </div>
+                <div class="drivers-grid" id="driversGrid">
+                    <!-- Driver cards will be inserted here -->
+                    <div class="empty-state" id="emptyState">
+                        <div class="empty-icon">📋</div>
+                        <h3>No hay choferes registrados</h3>
+                        <p>Agrega un chofer usando el formulario de abajo</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Add Driver Form -->
+            <section class="add-driver-panel glass-card">
+                <h2>➕ Agregar Chofer</h2>
+                <form id="addDriverForm" class="driver-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="driverName">Nombre del Chofer</label>
+                            <input type="text" id="driverName" placeholder="Ej: Juan Pérez" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="batteryCount">Cantidad de Baterías</label>
+                            <input type="number" id="batteryCount" min="1" max="50" value="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customTime">Tiempo Personalizado (opcional)</label>
+                            <div class="time-inputs">
+                                <input type="number" id="customHours" min="0" max="23" placeholder="Hrs">
+                                <span>:</span>
+                                <input type="number" id="customMinutes" min="0" max="59" placeholder="Min">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary">
+                        Agregar Chofer
+                    </button>
+                </form>
+            </section>
+
+            <!-- Collapsible Settings Panel -->
+            <section class="settings-panel glass-card collapsible collapsed">
+                <button class="collapsible-header" id="settingsToggle">
+                    <span>⚙️ Configuración del Temporizador</span>
+                    <span class="collapse-icon" id="collapseIcon">▼</span>
+                </button>
+                <div class="collapsible-content" id="settingsContent">
+                    <div class="timer-settings">
+                        <div class="setting-group">
+                            <label for="defaultHours">Horas</label>
+                            <input type="number" id="defaultHours" min="0" max="23" value="5">
+                        </div>
+                        <div class="setting-group">
+                            <label for="defaultMinutes">Minutos</label>
+                            <input type="number" id="defaultMinutes" min="0" max="59" value="0">
+                        </div>
+                        <div class="setting-group">
+                            <label for="warningThreshold">Alerta Naranja (min)</label>
+                            <input type="number" id="warningThreshold" min="30" max="120" value="60">
+                        </div>
+                        <div class="setting-group">
+                            <label for="criticalThreshold">Alerta Roja (min)</label>
+                            <input type="number" id="criticalThreshold" min="5" max="60" value="30">
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Battery Control System © 2026 | Desarrollado para gestión eficiente</p>
+        </footer>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal-overlay" id="confirmModal">
+        <div class="modal-content">
+            <div class="modal-icon">⚠️</div>
+            <h3 class="modal-title" id="modalTitle">¿Estás seguro?</h3>
+            <p class="modal-message" id="modalMessage">Esta acción no se puede deshacer.</p>
+            <div class="modal-buttons">
+                <button class="btn-modal btn-cancel" id="modalCancel">Cancelar</button>
+                <button class="btn-modal btn-confirm" id="modalConfirm">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Sound (optional) -->
+    <audio id="alertSound" preload="auto">
+        <source
+            src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2telewo5yN/9tGIRHJn/7ad+Jy563e2pnDlCMX3h9LSJLSVPo+bprI00AQAAhYqJhGZaX3CaqbCVZTA0XIig2M+yZxoCPpTa2q1sDA46vNr3v24RHZn/66R9JTB24u+wnztCL3zg9LSLO"
+            type="audio/wav">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
